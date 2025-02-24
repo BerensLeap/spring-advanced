@@ -39,18 +39,18 @@ class ManagerServiceTest {
     private ManagerService managerService;
 
     @Test
-    public void manager_목록_조회_시_Todo가_없다면_NPE_에러를_던진다() {
+     void manager_목록_조회_시_Todo가_없다면_IRE_예외를_던진다() {
         // given
         long todoId = 1L;
         given(todoRepository.findById(todoId)).willReturn(Optional.empty());
 
         // when & then
         InvalidRequestException exception = assertThrows(InvalidRequestException.class, () -> managerService.getManagers(todoId));
-        assertEquals("Manager not found", exception.getMessage());
+        assertEquals("TOdo not found", exception.getMessage());
     }
 
     @Test
-    void todo의_user가_null인_경우_예외가_발생한다() {
+    void todo의_user가_null인_경우_IRE_예외가_발생한다() {
         // given
         AuthUser authUser = new AuthUser(1L, "a@a.com", UserRole.USER);
         long todoId = 1L;
@@ -72,7 +72,7 @@ class ManagerServiceTest {
     }
 
     @Test // 테스트코드 샘플
-    public void manager_목록_조회에_성공한다() {
+    void manager_목록_조회에_성공한다() {
         // given
         long todoId = 1L;
         User user = new User("user1@example.com", "password", UserRole.USER);

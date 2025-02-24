@@ -7,6 +7,7 @@ import org.example.expert.domain.comment.entity.Comment;
 import org.example.expert.domain.common.entity.Timestamped;
 import org.example.expert.domain.manager.entity.Manager;
 import org.example.expert.domain.user.entity.User;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +25,14 @@ public class Todo extends Timestamped {
     private String weather;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @BatchSize(size = 10) // BatchSize를 통해 지연로딩 방식을 유지하면서 N+1 문제 완화
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "todo", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.REMOVE,orphanRemoval = true) // 고아 자동으로 객체 삭제
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "todo", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.PERSIST,orphanRemoval = true) // 고아 자동으로 객체 삭제
     private List<Manager> managers = new ArrayList<>();
 
     public Todo(String title, String contents, String weather, User user) {

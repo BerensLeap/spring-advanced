@@ -25,7 +25,7 @@ public class Todo extends Timestamped {
     private String weather;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @BatchSize(size = 10) // BatchSize를 통해 지연로딩 방식을 유지하면서 N+1 문제 완화
+//    @BatchSize(size = 10) // BatchSize를 통해 지연로딩 방식을 유지하면서 N+1 문제 완화 , @EntityGraph와 충돌로 주석처리
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

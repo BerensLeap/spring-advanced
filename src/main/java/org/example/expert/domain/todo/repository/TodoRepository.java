@@ -13,12 +13,12 @@ import java.util.Optional;
 public interface TodoRepository extends JpaRepository<Todo, Long> {
 
     @Query("SELECT t FROM Todo t ORDER BY t.modifiedAt DESC")
-    @EntityGraph(attributePaths = {"user"}, type = EntityGraph.EntityGraphType.FETCH)
+    @EntityGraph(attributePaths = {"user"}, type = EntityGraph.EntityGraphType.LOAD)
     Page<Todo> findAllByOrderByModifiedAtDesc(Pageable pageable);
 
     @Query("SELECT t FROM Todo t " +
             "WHERE t.id = :todoId")
-    @EntityGraph(attributePaths = {"user"}, type = EntityGraph.EntityGraphType.FETCH)
+    @EntityGraph(attributePaths = {"user"}, type = EntityGraph.EntityGraphType.LOAD)
     Optional<Todo> findByIdWithUser(@Param("todoId") Long todoId);
 
     int countById(Long todoId);
